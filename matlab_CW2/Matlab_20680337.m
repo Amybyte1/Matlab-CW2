@@ -49,3 +49,12 @@ avgTemp = mean(temperature);
 fprintf('Min: %.2f °C\n', minTemp);
 fprintf('Max: %.2f °C\n', maxTemp);
 fprintf('Avg: %.2f °C\n', avgTemp);
+
+for i = 1:60:length(temperature)
+    minute = (i-1)/60;
+    
+    str = sprintf('Minute %d\tTemperature: %.2f °C', ...
+        minute, temperature(i));
+    
+    disp(str);
+end
