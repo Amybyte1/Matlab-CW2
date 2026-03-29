@@ -58,3 +58,14 @@ for i = 1:60:length(temperature)
     
     disp(str);
 end
+
+fileID = fopen('capsule_temperature.txt','w');
+
+for i = 1:60:length(temperature)
+    minute = (i-1)/60;
+    
+    fprintf(fileID, 'Minute %d\tTemperature: %.2f °C\n', ...
+        minute, temperature(i));
+end
+
+fclose(fileID);
