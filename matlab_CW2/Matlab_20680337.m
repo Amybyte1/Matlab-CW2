@@ -17,8 +17,18 @@ for i = 1:10  % Blink 10 times
 end
 
 clear a  
+
 a = arduino('COM3','Uno');
 
-v = readVoltage(a, 'A0');
+duration = 10; % test with 10 seconds first
+time = zeros(1, duration);
+voltage = zeros(1, duration);
 
-disp(v);
+for i = 1:duration
+    time(i) = i;
+    voltage(i) = readVoltage(a, 'A0');
+    
+    pause(1);
+end
+
+disp(voltage);
