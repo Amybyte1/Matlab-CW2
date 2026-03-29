@@ -36,4 +36,8 @@ TC = 0.01;
 temperature = (voltage - V0) / TC;
 
 disp(temperature);
+plot(time, temperature);
+xlabel('Time (s)');
+ylabel('Temperature (°C)');
+title('Temperature vs Time');
 
