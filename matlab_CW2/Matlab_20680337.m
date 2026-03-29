@@ -15,6 +15,7 @@ for i = 1:10  % Blink 10 times
     writeDigitalPin(a, 'D10', 0);   % LED OFF
     pause(0.5);                     % Wait 0.5 s
 end
+%-------------------------------------------------------------------------------------------------------------
 
 clear a  
 
@@ -41,3 +42,10 @@ xlabel('Time (s)');
 ylabel('Temperature (°C)');
 title('Temperature vs Time');
 
+minTemp = min(temperature);
+maxTemp = max(temperature);
+avgTemp = mean(temperature);
+
+fprintf('Min: %.2f °C\n', minTemp);
+fprintf('Max: %.2f °C\n', maxTemp);
+fprintf('Avg: %.2f °C\n', avgTemp);
