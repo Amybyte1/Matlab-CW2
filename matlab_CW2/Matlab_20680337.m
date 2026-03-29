@@ -30,5 +30,10 @@ for i = 1:duration
     
     pause(1);
 end
+V0 = 0.5;
+TC = 0.01;
 
-disp(voltage);
+temperature = (voltage - V0) / TC;
+
+disp(temperature);
+
