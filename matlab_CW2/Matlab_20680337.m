@@ -19,53 +19,58 @@ end
 
 clear a  
 
-a = arduino('COM3','Uno');
+a = arduino('COM3','Uno');     %connects matlab to the arduino board
 
-duration = 10; % test with 10 seconds first
-time = zeros(1, duration);
-voltage = zeros(1, duration);
+duration = 10;                %sets it to be recorded for 600seconds
+time = zeros(1, duration);     %stores array of time
+voltage = zeros(1, duration);  %stores arrays of voltage values
 
-for i = 1:duration
-    time(i) = i;
-    voltage(i) = readVoltage(a, 'A0');
+for i = 1:duration             %allows the loop to run once every sec
+    time(i) = i;               %stores time in seconds
+    voltage(i) = readVoltage(a, 'A0'); %reads voltage from analouge pin A0
     
-    pause(1);
+    pause(1);                  %waits one sec beforw the next reading
 end
-V0 = 0.5;
-TC = 0.01;
+disp(voltage);                 %displays all recorded voltages
 
-temperature = (voltage - V0) / TC;
+V0 = 0.5; %voltage at 0deg (found in thermistor data sheet)
+TC = 0.01; %temperature coefficient (found in thermistor data sheet)
 
-disp(temperature);
-plot(time, temperature);
-xlabel('Time (s)');
-ylabel('Temperature (°C)');
-title('Temperature vs Time');
+temperature = (voltage - V0) / TC;% Convert voltage values into temperature where V0 is the voltage at 0deg
 
-minTemp = min(temperature);
-maxTemp = max(temperature);
-avgTemp = mean(temperature);
 
+disp(temperature);   %display calculated temp
+plot(time, temperature); %plots a graph of temperature against time
+xlabel('Time (s)');  %label x axis
+ylabel('Temperature (°C)');  %label y axis
+title('Temperature vs Time');  %add a title
+
+minTemp = min(temperature); %find the minimum temp
+maxTemp = max(temperature); %find maximum temp
+avgTemp = mean(temperature); %calculate average
+
+%display the results to 2dp
 fprintf('Min: %.2f °C\n', minTemp);
 fprintf('Max: %.2f °C\n', maxTemp);
 fprintf('Avg: %.2f °C\n', avgTemp);
 
-for i = 1:60:length(temperature)
-    minute = (i-1)/60;
+for i = 1:60:length(temperature) %loops through the data every 60s
+    minute = (i-1)/60;  %converts it to minutes
     
-    str = sprintf('Minute %d\tTemperature: %.2f °C', ...
-        minute, temperature(i));
+    str = sprintf('Minute %d\tTemperature: %.2f °C',minute, temperature(i));%creates a string of the temperature and minutes to 2dp
     
-    disp(str);
+    disp(str); %display the sting
 end
 
-fileID = fopen('capsule_temperature.txt','w');
+fileID = fopen('capsule_temperature.txt','w');  %open a text file for writing
 
-for i = 1:60:length(temperature)
-    minute = (i-1)/60;
+for i = 1:60:length(temperature) %loop data every 60s
+    minute = (i-1)/60; %converts to minutes
     
-    fprintf(fileID, 'Minute %d\tTemperature: %.2f °C\n', ...
-        minute, temperature(i));
+    fprintf(fileID, 'Minute %d\tTemperature: %.2f °C\n',minute, temperature(i));
 end
-
-fclose(fileID);
+% Write statistics at the end of the file
+fprintf(fileID, '\nMinimum Temperature: %.2f °C\n', minTemp);
+fprintf(fileID, 'Maximum Temperature: %.2f °C\n', maxTemp);
+fprintf(fileID, 'Average Temperature: %.2f °C\n', avgTemp);
+fclose(fileID);  %clese the file

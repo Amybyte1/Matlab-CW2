@@ -1,0 +1,5 @@
+Minute 0	Temperature: 447.07 °C
+
+Minimum Temperature: 397.70 °C
+Maximum Temperature: 447.07 °C
+Average Temperature: 416.52 °C
